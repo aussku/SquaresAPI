@@ -1,10 +1,10 @@
 using SquaresAPI.src.Models;
 
-public class PointRepo : IPointRepo
+public class PointsRepo : IPointsRepo
 {
     private readonly List<Point> _points;
 
-    public PointRepo()
+    public PointsRepo()
     {
         _points = new List<Point>();
     }

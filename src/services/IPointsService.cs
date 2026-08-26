@@ -1,12 +1,13 @@
+using SquaresAPI.src.DTOs;
 using SquaresAPI.src.Models;
 
-public interface IPointRepo
+public interface IPointsService
 {
     Task<List<Point>> GetAllPoints();
     Task<Point> GetPointById(int id);
     Task<Point> GetPointByCoordinates(int x, int y);
-    Task<Point> AddPoint(Point point);
-    Task<List<Point>> AddPoints(List<Point> points);
+    Task<Point> AddPoint(PointDTO point);
+    Task<List<Point>> AddPoints(List<PointDTO> points);
     Task<bool> DeletePoint(int id);
     Task<bool> DeletePointByCoordinates(int x, int y);
 }
