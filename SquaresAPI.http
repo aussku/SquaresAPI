@@ -1,6 +1,6 @@
 @SquaresAPI_HostAddress = http://localhost:5002
 
-GET {{SquaresAPI_HostAddress}}/weatherforecast/
+GET {{SquaresAPI_HostAddress}}/squaresapi/
 Accept: application/json
 
 ###
