@@ -1,6 +1,8 @@
 using SquaresAPI.src.DTOs;
 using SquaresAPI.src.Models;
 
+namespace SquaresAPI.src.Services;
+
 public interface IPointsService
 {
     Task<List<Point>> GetAllPoints();

@@ -1,5 +1,8 @@
 using SquaresAPI.src.DTOs;
 using SquaresAPI.src.Models;
+using SquaresAPI.src.Repos;
+
+namespace SquaresAPI.src.Services;
 
 public class PointsService : IPointsService
 {

@@ -1,4 +1,4 @@
-namespace SquaresAPI.Models;
+namespace SquaresAPI.src.Models;
 
 public class Square
 {

@@ -1,5 +1,7 @@
 using SquaresAPI.src.Models;
 
+namespace SquaresAPI.src.Repos;
+
 public interface IPointsRepo
 {
     Task<List<Point>> GetAllPoints();

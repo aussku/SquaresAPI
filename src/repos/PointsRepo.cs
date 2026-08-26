@@ -1,5 +1,7 @@
 using SquaresAPI.src.Models;
 
+namespace SquaresAPI.src.Repos;
+
 public class PointsRepo : IPointsRepo
 {
     private readonly List<Point> _points;
