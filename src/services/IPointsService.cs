@@ -12,4 +12,5 @@ public interface IPointsService
     Task<List<Point>> AddPoints(List<PointDTO> points);
     Task<bool> DeletePoint(int id);
     Task<bool> DeletePointByCoordinates(int x, int y);
+    //Task<List<Point>> GetAllSquares();
 }
