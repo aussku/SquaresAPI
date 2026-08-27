@@ -7,26 +7,26 @@ namespace SquaresAPI.src.Controllers;
 
 [ApiController]
 [Route("api/points")]
-public class PointController : ControllerBase
+public class PointsController : ControllerBase
 {
     private readonly IPointsService _pointsService;
 
-    public PointController(IPointsService pointsService)
+    public PointsController(IPointsService pointsService)
     {
         _pointsService = pointsService;
     }
 
     [HttpGet]
-    public ActionResult<List<Point>> GetAllPoints()
+    public async Task<ActionResult<List<Point>>> GetAllPoints()
     {
-        List<Point> points = _pointsService.GetAllPoints().Result;
+        var points = await _pointsService.GetAllPoints();
         return Ok(points);
     }
 
     [HttpGet("{x}/{y}")]
-    public ActionResult<Point> GetPointByCoordinates(int x, int y)
+    public async Task<ActionResult<Point>> GetPointByCoordinates(int x, int y)
     {
-        Point? point = _pointsService.GetPointByCoordinates(x, y).Result;
+        var point = await _pointsService.GetPointByCoordinates(x, y);
         if (point is null)
         {
             return NotFound();
@@ -35,27 +35,41 @@ public class PointController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<Point> AddPoint(PointDTO pointDto)
+    public async Task<ActionResult<Point>> AddPoint(PointDTO pointDto)
     {
-        Point point = _pointsService.AddPoint(pointDto).Result;
+        var point = await _pointsService.AddPoint(pointDto);
         return CreatedAtAction(nameof(GetPointByCoordinates), new { x = point.X, y = point.Y }, point);
     }
     
     [HttpPost("batch")]
-    public ActionResult<List<Point>> AddPoints(List<PointDTO> pointsDto)
+    public async Task<ActionResult<BatchInsertionResult>> AddPoints(List<PointDTO> pointsDto)
     {
-        List<Point> points = _pointsService.AddPoints(pointsDto).Result;
-        return CreatedAtAction(nameof(GetAllPoints), points);
+        var result = await _pointsService.AddPoints(pointsDto);
+        return Ok(result);
     }
 
     [HttpDelete("{x}/{y}")]
-    public ActionResult DeletePointByCoordinates(int x, int y)
+    public async Task<ActionResult> DeletePointByCoordinates(int x, int y)
     {
-        bool deleted = _pointsService.DeletePointByCoordinates(x, y).Result;
+        bool deleted = await _pointsService.DeletePointByCoordinates(x, y);
         if (!deleted)
         {
             return NotFound();
         }
         return NoContent();
+    }
+
+    [HttpGet("squares")]
+    public async Task<ActionResult<List<Square>>> GetAllSquares()
+    {
+        var squares = await _pointsService.GetAllSquares();
+        return Ok(squares);
+    }
+
+    [HttpGet("squares/count")]
+    public async Task<ActionResult<int>> GetSquareCount()
+    {
+        int count = await _pointsService.GetSquareCount();
+        return Ok(count); 
     }
 }

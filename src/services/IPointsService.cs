@@ -6,11 +6,10 @@ namespace SquaresAPI.src.Services;
 public interface IPointsService
 {
     Task<List<Point>> GetAllPoints();
-    Task<Point> GetPointById(int id);
-    Task<Point> GetPointByCoordinates(int x, int y);
+    Task<Point?> GetPointByCoordinates(int x, int y);
     Task<Point> AddPoint(PointDTO point);
-    Task<List<Point>> AddPoints(List<PointDTO> points);
-    Task<bool> DeletePoint(int id);
+    Task<BatchInsertionResult> AddPoints(List<PointDTO> points);
     Task<bool> DeletePointByCoordinates(int x, int y);
-    //Task<List<Point>> GetAllSquares();
+    Task<List<Square>> GetAllSquares();
+    Task<int> GetSquareCount();
 }
