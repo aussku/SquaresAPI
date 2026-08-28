@@ -1,6 +1,6 @@
 @SquaresAPI_HostAddress = http://localhost:5002
 
-GET {{SquaresAPI_HostAddress}}/squaresapi/
+GET {{SquaresAPI_HostAddress}}/api/points
 Accept: application/json
 
 ###

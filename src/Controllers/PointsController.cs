@@ -37,8 +37,15 @@ public class PointsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Point>> AddPoint(PointDTO pointDto)
     {
-        var point = await _pointsService.AddPoint(pointDto);
-        return CreatedAtAction(nameof(GetPointByCoordinates), new { x = point.X, y = point.Y }, point);
+        try
+        {
+            var point = await _pointsService.AddPoint(pointDto);
+            return CreatedAtAction(nameof(GetPointByCoordinates), new { x = point.X, y = point.Y }, point);
+        }
+        catch (InvalidOperationException ex) // If the point already exists return 409
+        {
+            return Conflict(new { message = ex.Message });
+        }
     }
     
     [HttpPost("batch")]

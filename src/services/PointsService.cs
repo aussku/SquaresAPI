@@ -42,6 +42,7 @@ public class PointsService : IPointsService
         return await _pointsRepository.DeletePointByCoordinates(x, y);
     }
 
+    // Method to find all squares formed by the points in a 2D plane
     public async Task<List<Square>> GetAllSquares()
     {
         List<Point> points = await _pointsRepository.GetAllPoints();
@@ -50,6 +51,12 @@ public class PointsService : IPointsService
         .ToHashSet();
         Point[] pointArray = points.ToArray();
         List<Square> squares = new List<Square>();
+        var existingSquares = new HashSet<(
+            (int X, int Y),
+            (int X, int Y),
+            (int X, int Y),
+            (int X, int Y)
+        )>();
 
         for (int i = 0; i < pointArray.Length; i++)
         {
@@ -67,8 +74,11 @@ public class PointsService : IPointsService
 
                 if (pointSet.Contains((p3.X, p3.Y)) && pointSet.Contains((p4.X, p4.Y))) // Check if the other two points exist in the set
                 {
-                    Square square = new Square(p1, p2, p3, p4);
-                    squares.Add(new Square(p1, p2, p3, p4));
+                    var squareKey = GetSquareKey(p1, p2, p3, p4);
+                    if (existingSquares.Add(squareKey)) // If the square is not already added, add it to the list
+                    {
+                        squares.Add(new Square(p1, p2, p3, p4));
+                    }
                 }
 
                 // Rotate p1 and p2 by -90 degrees to find other two possible points of the square
@@ -77,11 +87,41 @@ public class PointsService : IPointsService
 
                 if (pointSet.Contains((p5.X, p5.Y)) && pointSet.Contains((p6.X, p6.Y)))
                 {
-                    squares.Add(new Square(p1, p2, p5, p6));
+                    var squareKey = GetSquareKey(p1, p2, p5, p6);
+                    if (existingSquares.Add(squareKey))
+                    {
+                        squares.Add(new Square(p1, p2, p5, p6));
+                    }
                 }
             }
         }
         return squares;
+    }
+
+    private static (
+        (int X, int Y),
+        (int X, int Y),
+        (int X, int Y),
+        (int X, int Y)
+    ) GetSquareKey(Point p1, Point p2, Point p3, Point p4)
+    {
+        var points = new[]
+        {
+            (p1.X, p1.Y),
+            (p2.X, p2.Y),
+            (p3.X, p3.Y),
+            (p4.X, p4.Y)
+        }
+        .OrderBy(p => p.X)
+        .ThenBy(p => p.Y)
+        .ToArray();
+
+        return (
+            points[0],
+            points[1],
+            points[2],
+            points[3]
+        );
     }
 
     public async Task<int> GetSquareCount()
