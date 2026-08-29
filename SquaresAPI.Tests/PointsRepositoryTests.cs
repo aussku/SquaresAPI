@@ -102,7 +102,7 @@ public class PointsRepositoryTests
         var point = new Point(1, 2);
         await _repository.AddPoint(point);
 
-        Assert.ThrowsAsync<InvalidOperationException>(async () => await _repository.AddPoint(point));
+        Assert.ThrowsAsync<InvalidOperationException>(async () => await _repository.AddPoint(new Point(1, 2)));
 
         var allPoints = await _repository.GetAllPoints();
         Assert.That(allPoints, Has.Count.EqualTo(1));
