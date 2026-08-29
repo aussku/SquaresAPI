@@ -25,11 +25,13 @@ public class PointsRepository : IPointsRepository
 
     public Task<Point> AddPoint(Point point)
     {
-        _points.Add(point);
         if (_points.Any(p => p.X == point.X && p.Y == point.Y))
         {
             throw new InvalidOperationException($"Point with coordinates ({point.X}, {point.Y}) already exists.");
         }
+
+        _points.Add(point);
+        
         return Task.FromResult(point);
     }
 

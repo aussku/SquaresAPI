@@ -8,6 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.30" />
+    <Compile Remove="SquaresAPI.Tests/**/*.cs" />
+    <EmbeddedResource Remove="SquaresAPI.Tests/**" />
+    <None Remove="SquaresAPI.Tests/**" />
   </ItemGroup>
 
 </Project>
