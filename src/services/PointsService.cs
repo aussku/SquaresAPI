@@ -25,14 +25,14 @@ public class PointsService : IPointsService
 
     public async Task<Point> AddPoint(PointDTO pointDto)
     {
-        var point = new Point(pointDto.X, pointDto.Y);
+        var point = new Point(pointDto.X!.Value, pointDto.Y!.Value);
         return await _pointsRepository.AddPoint(point);
     }
 
     public async Task<BatchInsertionResult> AddPoints(List<PointDTO> pointsDto)
     {
         var points = pointsDto
-        .Select(p => new Point(p.X, p.Y))
+        .Select(p => new Point(p.X!.Value, p.Y!.Value))
         .ToList();
         return await _pointsRepository.AddPoints(points);
     }

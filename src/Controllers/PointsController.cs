@@ -23,7 +23,7 @@ public class PointsController : ControllerBase
         return Ok(points);
     }
 
-    [HttpGet("{x}/{y}")]
+    [HttpGet("{x:int}/{y:int}")]
     public async Task<ActionResult<Point>> GetPointByCoordinates(int x, int y)
     {
         var point = await _pointsService.GetPointByCoordinates(x, y);
@@ -39,8 +39,8 @@ public class PointsController : ControllerBase
     {
         try
         {
-            var point = await _pointsService.AddPoint(pointDto);
-            return CreatedAtAction(nameof(GetPointByCoordinates), new { x = point.X, y = point.Y }, point);
+            var result = await _pointsService.AddPoint(pointDto);
+            return Ok(result);
         }
         catch (InvalidOperationException ex) // If the point already exists return 409
         {
@@ -55,7 +55,7 @@ public class PointsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete("{x}/{y}")]
+    [HttpDelete("{x:int}/{y:int}")]
     public async Task<ActionResult> DeletePointByCoordinates(int x, int y)
     {
         bool deleted = await _pointsService.DeletePointByCoordinates(x, y);
